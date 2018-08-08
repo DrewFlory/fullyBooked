@@ -19,11 +19,9 @@ passportSetup(passport);
 
 mongoose.Promise = Promise;
 mongoose
-<<<<<<< HEAD
+
   .connect(process.env.MONGODB_URI, {useMongoClient: true})
-=======
-  .connect('mongodb://localhost/server', {useMongoClient: true})
->>>>>>> ab421d93988de4cbbaa51abdb3e01988697c1073
+
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
