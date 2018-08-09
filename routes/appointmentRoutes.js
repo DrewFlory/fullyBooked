@@ -60,54 +60,33 @@ User.findById(req.user._id)
 })
 })
 
-apptRouter.get('/private/schedule/help', (req, res, next)=>{
-    
+
+
+apptRouter.post('/private/profile/:id/bookappt', (req, res, next)=>{
+    const profile = req.params.id;
+    const index = req.body.index;
+    const day = req.body.day;
+    const userID = req.user._id;
+
+// console.log(profile)
+// console.log(index)
+// console.log(day)
+
+    User.findById(profile) 
+    .then((theUser)=>{
+
+        theUser.weeklySchedule[day][index].value = false;
+        console.log(theUser.weeklySchedule[day][index])
+        // console.log(theUser.myAppointments);
+        
+
+
+    })
+
+
+
 })
 
-apptRouter.post('/appointments/create', (req, res, next)=> {
-
-    Appointments.create({
-        booked: req.body.booked,
-        isPassed: req.body.isPassed,
-        timeDate: req.body.timeDate
-    })
-    .then((response)=>{
-        res.json(response)
-    })
-    .catch((err)=>{
-        res.json(err);
-    })
-});
-
-//edit and update
-apptRouter.post('/appointments/:id/update', (req, res, next)=>{
-    const id = req.params.id;
-
-    Appointments.findByIdAndUpdate(id, {
-        booked: req.body.booked,
-        isPassed: req.body.isPassed,
-        timeDate: req.body.timeDate
-    })
-    .then((theUpdatedAppt)=>{
-        res.json(theUpdatedAppt)
-    })
-    .catch((err)=>{
-        res.json(err);
-    })
-});
-
-//delete route
-apptRouter.post('/appointments/:id/delete', (req, res, next)=>{
-    const id = req.params.id;
-
-    Appointments.findByIdAndRemove(id)
-    .then((theAppt)=>{
-        res.json(theAppt)
-    })
-    .catch((err)=>{
-        res.json(err);
-    })
-})
 
 
 module.exports = apptRouter;

@@ -15,6 +15,21 @@ serviceRouter.post('/private/profile/services/create', (req, res, next)=> {
         pricing: req.body.pricing,
     })
         .then((response)=>{
+            User.findById(req.user._id)
+            .then((theUser)=>{
+                console.log("======================", theUser.categories)
+                theUser.categories.push(req.body.category)
+                theUser.save()
+                .then((savedUser)=>{
+                    res.json(savedUser);
+                })
+                .catch((err)=>{
+                    res.json(err);
+                })
+                .catch((err)=>{
+                    res.json(err);
+                })
+            })
             res.json(response)
         })
         .catch((err)=>{
@@ -22,18 +37,6 @@ serviceRouter.post('/private/profile/services/create', (req, res, next)=> {
         })
 })
 
-//mentor edit service
-// serviceRouter.post('/private/profile/services/:id/edit', (req, res, next)=> {
-//     const id = req.params.id;
-
-//     Service.findById(id)
-//     .then((theService)=>{
-//         res.json(theService)
-//     })
-//     .catch((err)=>{
-//         res.json(err);
-//     })
-// });
 
 //update service
 serviceRouter.post('/private/profile/services/:id/edit', (req, res, next)=>{

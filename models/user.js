@@ -71,16 +71,14 @@ const userSchema = new Schema({
   image: {type: String, default: 'images/defaultpicture.jpeg'},
   email: String,
   service: Boolean,
+  categories: [String],
   location: String,
   twitter: String,
   instagram: String,
   linkedin: String,
-  myAppointments: [Array],
-  weeklySchedule: scheduleSchema
-     
-
-   
-});
+  myAppointments: Array,
+  weeklySchedule: scheduleSchema 
+}, {usePushEach: true});
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

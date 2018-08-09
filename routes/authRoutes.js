@@ -230,10 +230,38 @@ authRoutes.post('/signup',(req, res, next) => {
 
   })
 
+  authRoutes.get('/private/userjobs/:id', (req, res, next)=> {
+
+    Service.find({user: req.params.id})
+    .then((userJobs)=> {
+      // console.log("==========================",userJobs)
+      res.json(userJobs);
+    })
+    .catch((err)=>{
+      res.json(err);
+    })
+
+  })
+
   authRoutes.get('/private/profile/search', (req, res, next)=>{
     User.find()
     .then((allTheUsers)=>{
-      res.json(allTheUsers);
+
+        res.json(allTheUsers);
+
+    })
+  })
+
+  authRoutes.get('/private/profile/:id', (req, res, next)=>{
+    const userID = req.params.id
+    User.findById(userID)
+
+    .then((theUser)=>{
+      console.log(theUser)
+      res.json(theUser)
+    })
+    .catch((err)=>{
+      res.json(err);
     })
   })
 
