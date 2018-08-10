@@ -63,25 +63,55 @@ User.findById(req.user._id)
 
 
 apptRouter.post('/private/profile/:id/bookappt', (req, res, next)=>{
+    let info;
     const profile = req.params.id;
     const index = req.body.index;
     const day = req.body.day;
     const userID = req.user._id;
 
-// console.log(profile)
-// console.log(index)
-// console.log(day)
 
-    User.findById(profile) 
-    .then((theUser)=>{
+User.findById(profile)
+.then((theUser)=>{
 
-        theUser.weeklySchedule[day][index].value = false;
-        console.log(theUser.weeklySchedule[day][index])
-        // console.log(theUser.myAppointments);
-        
+    const blah = Object.assign(theUser);
+    theUser = {};
+    theUser = blah;
+    theUser.weeklySchedule[day][index].value = false;
+    const profileName = theUser.name;
+    
+         info = {
+            freelancer: req.params.id,
+            day: req.body.day,
+            client: req.user._id,
+            time: theUser.weeklySchedule[day][index].time,
+            profileName: profileName
+        }
+
+        theUser.myAppointments.push(info);
 
 
-    })
+        theUser.save()
+.then((response)=>{
+
+        User.findById(userID) 
+        .then((loggedInUser)=>{
+            const clientName = loggedInUser.name
+            loggedInUser.myAppointments.push(info, clientName);
+            loggedInUser.save()
+            .then((theAppt)=>{
+                res.json(theAppt)
+            })
+
+
+        })
+})
+.catch((err)=>{
+    res.json(err);
+})
+})
+.catch((err)=>{
+    res.json(err);
+})
 
 
 

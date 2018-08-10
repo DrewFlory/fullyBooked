@@ -246,6 +246,7 @@ authRoutes.post('/signup',(req, res, next) => {
   authRoutes.get('/private/profile/search', (req, res, next)=>{
     User.find()
     .then((allTheUsers)=>{
+      
 
         res.json(allTheUsers);
 
