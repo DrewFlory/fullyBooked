@@ -95,8 +95,7 @@ User.findById(profile)
 
         User.findById(userID) 
         .then((loggedInUser)=>{
-            const clientName = loggedInUser.name
-            loggedInUser.myAppointments.push(info, clientName);
+            loggedInUser.myAppointments.push(info);
             loggedInUser.save()
             .then((theAppt)=>{
                 res.json(theAppt)
@@ -114,6 +113,26 @@ User.findById(profile)
 })
 
 
+
+})
+
+apptRouter.post('/private/profile/completedappt/:apptindex', (req, res, next)=>{
+    const apptIndex = req.params.apptIndex;
+    User.findById(req.user._id)
+    .then((theUserImEditing)=>{
+        theUserImEditing.myAppointments.splice(reviewIndex,1);
+
+        theUserImEditing.save()
+        .then((clearedAppt)=>{
+            res.json(clearedAppt)
+        })
+        .catch((err)=>{
+            res.json(err);
+        })
+    })
+    .catch((err)=>{
+        res.json(err);
+    })
 
 })
 

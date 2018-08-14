@@ -247,6 +247,7 @@ authRoutes.post('/signup',(req, res, next) => {
     User.find()
     .then((allTheUsers)=>{
       
+
         res.json(allTheUsers);
 
     })
